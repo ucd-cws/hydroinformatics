@@ -21,7 +21,7 @@ class Station(models.Model):
 		return self.name
 
 	def retrieve_station_data(self):
-
+		pass
 
 class Graph(models.Model):
 	pass

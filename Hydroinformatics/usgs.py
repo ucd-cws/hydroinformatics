@@ -10,7 +10,7 @@ import urllib
 import urllib2
 import json
 
-class usgs_gage():
+class gage():
 	def __init__(self, station_id = None, time_period = "P7D", url_params = {}):
 
 		self.station_id = station_id
@@ -22,9 +22,29 @@ class usgs_gage():
 		self._json_string = None
 		self._base_url = "http://waterservices.usgs.gov/nwis/iv/"
 
+	def check_params(self, params = ('station_id',)):
+		"""
+			Makes sure that we have the base level of information necessary to run a query
+			to prevent lazy setup errors
+		"""
 
+		for param in params:
+			if self.__dict__[param] is None:
+				raise AttributeError("Required attribute %s must be set before running this method" % param)
 
 	def retrieve(self):
+		"""
+			runs the relevant private methods in sequence
+
+		"""
+
+		# makes sure that the user didn't forget to set something after init
+		self.check_params()
+
+		self._retrieve_data()
+		self._json_to_dataframe()
+
+	def _retrieve_data(self):
 		"""
 			requests retrieves, and stores the json
 		"""
@@ -42,15 +62,21 @@ class usgs_gage():
 		data_stream = urllib2.urlopen(request)
 		self._json_string = data_stream.read()
 
-		# TODO: run the string through json parser and save as self._json_data
+		self._json_data = json.loads(self._json_string)
 
-	def json_to_dataframe(self):
+	def _json_to_dataframe(self):
 		"""
 			converts the json to a pandas data frame
 		"""
+
+		self._time_series_only = self._json_data['value']['timeSeries'][0]['values'][0]['value']
+
+		self._data_frame = pandas.DataFrame(self._time_series_only)
+
+
 		pass
 
-	def merge_with_existing(self):
+	def _merge_with_existing(self):
 		"""
 			if we execute a request when we already have data, this method attempts
 			to merge the two datasets into a single time series so you can effectively
