@@ -1,7 +1,7 @@
 from django.template.defaultfilters import removetags
 from django.core import exceptions
 
-import voteclimate.models
+import hydro.models
 
 all_tags = ["!doctype", "a","abbr","acronym","address","applet","area","b","base","basefont","bdo","big","blockquote","body","br","button","caption",
 "center","cite","code","col","colgroup","dd","del","dfn","dir","div","dl","dt","em","fieldset","font","form","frameset","h1","h2","h3",

@@ -1,0 +1,10 @@
+{% extends 'form.django' %}
+
+{%  block content %}
+    <h3>Add New Station</h3>
+
+    <ul id="add_data_source" class="form_wrapper">
+        {{ form.as_ul }}
+    </ul>
+
+{%  endblock %}

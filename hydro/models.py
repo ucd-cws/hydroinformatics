@@ -5,12 +5,23 @@ from django.db import models
 class River(models.Model):
 	name = models.CharField(max_length = 255)
 
+	def __unicode__(self):
+		return self.name
+
+
 class Station(models.Model):
 	name = models.CharField(max_length = 255)
-	source_url = models.URLField()
+	source_url = models.URLField(default="http://waterservices.usgs.gov/nwis/iv/?")
+	usgs_id = models.IntegerField()
 	river = models.ForeignKey(River)
 	lat = models.FloatField(null=True,)
 	lon = models.FloatField(null=True,)
+
+	def __unicode__(self):
+		return self.name
+
+	def retrieve_station_data(self):
+
 
 class Graph(models.Model):
 	pass

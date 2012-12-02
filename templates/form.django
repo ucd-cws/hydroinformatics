@@ -1,0 +1,14 @@
+{% extends "subpage.django" %}
+
+{%  block content %}
+
+  <form action="#" method="POST">
+    {% csrf_token %}
+    <ul class="form_wrapper">
+        {{ form.as_ul }}
+    </ul>
+
+    <input type="submit">
+  </form>
+
+{% endblock %}

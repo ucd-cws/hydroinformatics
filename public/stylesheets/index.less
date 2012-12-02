@@ -1,0 +1,76 @@
+@the_blue: #2284A1;
+@ff_orange: #F1A446;
+@trans_back: rgba(255,255,255,.90);
+
+.rounded(@rad:4px){
+  -moz-border-radius: @rad;
+  -webkit-border-radius: @rad;
+  border-radius: @rad;
+
+/* useful if you don't want a bg color from leaking outside the border: */
+  -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+  padding:1em;
+}
+
+.rounded_bottom(@rad:4px){
+  -moz-border-bottom-left-radius: @rad;
+  -webkit-border-bottom-left-radius: @rad;
+
+  -moz-border-bottom-right-radius: @rad;
+  -webkit-border-bottom-right-radius: @rad;
+
+  border-bottom-left-radius: @rad;
+  border-bottom-right-radius: @rad;
+
+  padding:1em;
+}
+
+.rounded_top(@rad:4px){
+  -moz-border-top-left-radius: @rad;
+  -webkit-border-top-left-radius: @rad;
+
+  -moz-border-top-right-radius: @rad;
+  -webkit-border-top-right-radius: @rad;
+
+  border-top-left-radius: @rad;
+  border-top-right-radius: @rad;
+
+  padding:1em;
+}
+
+.gradiented(@top:#2284A1,@bottom:#10243A){
+  background-color: @top;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(@top), to(@bottom)); /* Safari 4+, Chrome */
+  background-image: -webkit-linear-gradient(top, @top, @bottom); /* Chrome 10+, Safari 5.1+, iOS 5+ */
+  background-image:    -moz-linear-gradient(top, @top, @bottom); /* Firefox 3.6-15 */
+  background-image:      -o-linear-gradient(top, @top, @bottom); /* Opera 11.10-12.00 */
+  background-image:         linear-gradient(to bottom, @top, @bottom); /* Firefox 16+, IE10, Opera 12.50+ */
+
+  box-shadow: 2px 2px 4px #333;
+}
+
+.box{
+  .rounded;
+  margin-bottom:1em;
+  background-color: #eee;
+
+  p{
+    margin:0;
+  }
+}
+
+.success_box {
+  .box;
+
+  color: #468847;
+  background-color: #aff0a8;
+  border-color: #b6f9a6;
+}
+
+input{
+  padding:.5em 1em;
+}
+
+ul.form_wrapper li{
+  list-style-type:none;
+}

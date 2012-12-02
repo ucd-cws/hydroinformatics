@@ -1,0 +1,41 @@
+.box {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  /* useful if you don't want a bg color from leaking outside the border: */
+
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 1em;
+  margin-bottom: 1em;
+  background-color: #eee;
+}
+.box p {
+  margin: 0;
+}
+.success_box {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  /* useful if you don't want a bg color from leaking outside the border: */
+
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  padding: 1em;
+  margin-bottom: 1em;
+  background-color: #eee;
+  color: #468847;
+  background-color: #aff0a8;
+  border-color: #b6f9a6;
+}
+.success_box p {
+  margin: 0;
+}
+input {
+  padding: .5em 1em;
+}
+ul.form_wrapper li {
+  list-style-type: none;
+}

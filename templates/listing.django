@@ -1,0 +1,10 @@
+{% extends "subpage.django" %}
+
+{% block content %}
+
+    <a class="button" style="position:relative;float:right" href="new">New</a>
+    {%  for object in objects %}
+        {{ object }}
+
+    {% endfor %}
+{% endblock %}

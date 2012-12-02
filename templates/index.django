@@ -20,6 +20,7 @@
   
   <!-- Included CSS Files (Compressed) -->
   <link rel="stylesheet" href="/static/stylesheets/foundation.min.css">
+  <link rel="stylesheet" href="/static/stylesheets/index.css">
   <link rel="stylesheet" href="/static/stylesheets/app.css">
 
   <script src="/static/javascripts/modernizr.foundation.js"></script>
@@ -31,14 +32,22 @@
       <!-- Navigation -->
 
           <ul class="nav-bar">
-          <li class="active"><a href="#">Nav Item 1</a></li>
-          <li><a href="#">Nav Item 2</a></li>
-          <li><a href="#">Nav Item 3</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="/data/sources/">Data Sources</a>
+          <!--  <ul>
+                <li><a href="/data/sources/new/">Add New Source</a></li>
+            </ul>-->
+          </li>
+          <li><a href="/rivers">Rivers</a></li>
         </ul>
 
       <!-- End Navigation -->
 
+      {%  block header %}
 
+        {%  endblock %}
+
+      {%  block content %}
       <!-- Header Content -->
 
         <div class="row">
@@ -83,36 +92,6 @@
 
       <!-- End Header Content -->
 
-
-      <!-- Search Bar -->
-
-        <div class="row">
-
-          <div class="twelve columns">
-            <div class="radius panel">
-
-            <form>
-              <div class="row collapse">
-
-                <div class="ten mobile-three columns">
-                  <input type="text" />
-                </div>
-
-                <div class="two mobile-one columns">
-                  <a href="#" class="postfix button expand">Search</a>
-                </div>
-
-              </div>
-            </form>
-
-          </div>
-          </div>
-
-        </div>
-
-      <!-- End Search Bar -->
-
-
       <!-- Thumbnails -->
 
         <div class="row">
@@ -152,7 +131,7 @@
         </div>
 
       <!-- End Thumbnails -->
-
+      {%  endblock %}
 
       <!-- Footer -->
 
@@ -161,7 +140,7 @@
             <div class="row">
 
               <div class="six columns">
-                  <p>&copy; Copyright no one at all. Go to town.</p>
+                  <p>&copy; Copyright Nick Santos 2012</p>
               </div>
 
               <div class="six columns">
@@ -226,5 +205,7 @@
   
   <!-- Initialize JS Plugins -->
   <script src="/static/javascripts/app.js"></script>
+
+  <script>if (location.hostname == "localhost") { document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=2"></' + 'script>') }</script>
 </body>
 </html>

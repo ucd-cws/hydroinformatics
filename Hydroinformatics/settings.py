@@ -3,13 +3,16 @@ import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-AUTOCOMPILE_LESS = TEMPLATE_DEBUG
+APPEND_SLASH = True
+
+
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
 _current_dir = os.getcwd()
+
 
 MANAGERS = ADMINS
 
@@ -159,3 +162,5 @@ LOGGING = {
         },
     }
 }
+
+
