@@ -6,6 +6,8 @@ from django.template import Context, Template, loader, TemplateDoesNotExist, Req
 from django.template.loader import render_to_string
 from django.core import exceptions
 
+import logging
+
 from Hydroinformatics import settings
 import models
 import forms
@@ -13,11 +15,8 @@ import forms
 
 import simplejson
 
-def log(msg):
-	# 	TODO: needs to be fized by the time we go live
-
-	print msg
-
+# Get an instance of a logger
+log = logging.getLogger(__name__)
 
 def home(request):
 
@@ -56,6 +55,14 @@ def add_data_source(request):
 
 		return HttpResponse(template.render(cont))
 
+def single_data_source(request, source_id):
+
+	station = models.Station.objects.get(pk=source_id)
+
+	template = loader.get_template("station.django")
+	cont = RequestContext(request,{'section_title':"Data Sources",'subtitle':station.name,'station':station})
+	return HttpResponse(template.render(cont))
+
 def add_river(request):
 	if request.method == "GET":
 
@@ -81,5 +88,24 @@ def rivers(request):
 
 	template = loader.get_template("listing.django")
 	cont = RequestContext(request,{'objects':rivers, 'section_title':"Rivers",})
+
+	return HttpResponse(template.render(cont))
+
+def single_river(request,river_id=None):
+	river = get_object_or_404(models.River,pk=river_id)
+	sources_stations = models.Station.objects.filter(river=river.pk)
+	sources_sites = models.Site.objects.filter(river=river.pk)
+
+	template = loader.get_template("river.django")
+	cont = RequestContext(request,{'river':river,'sources_stations':sources_stations,'sources_sites':sources_sites, 'section_title':"Rivers",})
+
+	return HttpResponse(template.render(cont))
+
+
+def sites(request):
+	sites = models.Site.objects.all()
+
+	template = loader.get_template("listing.django")
+	cont = RequestContext(request,{'objects':sites, 'section_title':"Sites",})
 
 	return HttpResponse(template.render(cont))

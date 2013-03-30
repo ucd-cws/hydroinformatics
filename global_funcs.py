@@ -37,3 +37,7 @@ def strip_tags(process_string,unsafe_tags = None,safe_tags = None):
 		remove_str += "%s " % item
 	
 	return removetags(process_string,remove_str)
+
+def process_frames():
+
+	pass

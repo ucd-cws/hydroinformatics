@@ -8,10 +8,15 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'hydro.views.home', name='home'),
     url(r'^data/sources/$', 'hydro.views.data_sources', name='data_sources'),
+    url(r'^data/sources/(?P<source_id>\d+?)/$', 'hydro.views.single_data_source', name='single_data_source'),
     url(r'^data/sources/new/$', 'hydro.views.add_data_source', name='add_source'),
 
     url(r'^rivers/$', 'hydro.views.rivers', name='rivers'),
     url(r'^rivers/new/$', 'hydro.views.add_river', name='add_river'),
+    url(r'^rivers/(?P<river_id>\d+?)/$', 'hydro.views.single_river', name='rivers'),
+
+	url(r'^sites/$', 'hydro.views.sites',name='sites'),
+	url(r'^sites/new$', 'hydro.views.add_site',name='add_site'),
 
     # url(r'^Hydroinformatics/', include('Hydroinformatics.foo.urls')),
 

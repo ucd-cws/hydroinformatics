@@ -3,8 +3,9 @@
 {% block content %}
 
     <a class="button" style="position:relative;float:right" href="new">New</a>
+    <ol>
     {%  for object in objects %}
-        {{ object }}
-
+        <li><a href="./{{ object.id }}">{{ object }}</a></li>
     {% endfor %}
+    </ol>
 {% endblock %}
