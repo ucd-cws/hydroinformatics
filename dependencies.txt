@@ -1,0 +1,11 @@
+
+Erlang
+Celery
+RabbitMQ
+
+usgs-api
+ImageMagick (with C/C++ Development Headers)
+wand
+
+Ruby
+compass

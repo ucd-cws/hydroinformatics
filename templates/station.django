@@ -1,0 +1,10 @@
+{% extends "subpage.django" %}
+
+{%  block content %}
+
+    River: <a href="/rivers/{{ station.river.pk }}">{{ station.river|default:"<em>unknown</em>"}}</a>
+    <h4>Get Data</h4>
+
+
+
+{% endblock %}

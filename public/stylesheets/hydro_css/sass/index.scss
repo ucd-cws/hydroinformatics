@@ -1,0 +1,99 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+/*@import "compass/reset";*/
+@import "compass/css3";
+@import "compass/utilities";
+@import "compass/css3/images";
+@import "compass/css3/border-radius";
+
+$the_blue: #2284A1;
+$ff_orange: #F1A446;
+$trans_back: rgba(255,255,255,.90);
+
+@mixin rounded($rad:4px){
+  @include border-radius($rad);
+
+/* useful if you don't want a bg color from leaking outside the border: */
+  background-clip: padding-box;
+  padding:1em;
+}
+
+.rounded{
+  @include rounded;
+}
+
+@mixin rounded_bottom($rad:4px){
+  @include border-bottom-left-radius($rad);
+  @include border-bottom-right-radius($rad);
+
+  padding:1em;
+}
+
+.rounded_bottom{
+  @include rounded_bottom;
+}
+
+@mixin rounded_top($rad:4px){
+  @include border-top-left-radius($rad);
+  @include border-top-right-radius($rad);
+
+  padding:1em;
+}
+
+.rounded_top{
+  @include rounded_top;
+}
+
+@mixin gradiented($top:#2284A1,$bottom:#10243A){
+  background-color: $top;
+  @include background(linear-gradient(top bottom, $top, $bottom)); /* Firefox 16+, IE10, Opera 12.50+ */
+
+  box-shadow: 2px 2px 4px #333;
+}
+
+.gradiented{
+  @include gradiented;
+}
+
+@mixin box{
+  @include rounded;
+  margin-bottom:1em;
+  background-color: #eee;
+
+  p{
+    margin:0;
+  }
+}
+
+.box{
+  @include box;
+}
+
+.success_box {
+  @include box;
+
+  color: #468847;
+  background-color: #aff0a8;
+  border-color: #b6f9a6;
+}
+
+.warning{
+  color: #884647;
+  background-color: #f0afa8;
+  border-color: #f9b6a6;
+}
+
+.warning.box{
+  padding: 1em;
+}
+
+input{
+  padding:.5em 1em;
+}
+
+ul.form_wrapper li{
+  list-style-type:none;
+}

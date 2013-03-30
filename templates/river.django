@@ -1,0 +1,18 @@
+{% extends "subpage.django" %}
+{% block content %}
+
+    {% if sources_stations %}
+        <h3>USGS stations on this river</h3>
+        {% for station in sources_stations %}
+            <a href="/data/sources/{{ station.pk }}">{{ station.name }}</a>
+        {% endfor %}
+    {% endif %}
+
+    {% if sources_sites %}
+        <h3>CWS Sites on this river</h3>
+        {% for site in sources_sites %}
+            {{ site.name }}
+        {% endfor %}
+{% endif %}
+
+{% endblock %}
