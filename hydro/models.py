@@ -31,6 +31,7 @@ class Site(models.Model):
 	river = models.ForeignKey(River)
 	lat = models.FloatField(null=True,)
 	lon = models.FloatField(null=True,)
+	notes = models.TextField()
 
 class User(models.Model):
 	name = models.CharField(max_length=30)

@@ -16,3 +16,6 @@ class StationDateForm(Form):
 	date_start = forms.DateField()
 	date_end = forms.DateField()
 	#station =
+
+class ImageUploadForm(Form): # or should this be a model form?
+	pass
