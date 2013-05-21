@@ -51,17 +51,52 @@ class Image(models.Model):
 	height = models.IntegerField()
 
 class ImageGraphPair(models.Model):
+	"""
+		This class acts as the individual river frame. We may want the ability
+		to
+	"""
+	video = models.ForeignKey(Video)
 	image = models.ForeignKey(Image)
 	graph = models.ForeignKey(Graph)
 
 class Frame(models.Model):
 	video = models.ForeignKey(Video)
-	image = models.ForeignKey(ImageGraphPair, related_name='main_image')
-	pair = models.ForeignKey(ImageGraphPair, related_name='pair_image')
 	duration = models.IntegerField(default=100) # in milliseconds
 	timestamp = models.DateTimeField()
-	time_from = models.DateTimeField() # the beginning moment of the time this covers
+	time_from = models.DateTimeField() # the beginning moment of the time this covers (as the camera perceives it, not the video)
 	time_to = models.DateTimeField() # the end moment of the time period this covers
+
+class SingleFrame(Frame):
+	"""
+		A single frame has all the attributes above, plus an image graph pair
+	"""
+	image = models.ForeignKey(ImageGraphPair, related_name='main_image')
+
+class MultiFrame(Frame):
+	"""
+		MultiFrame would be used pair many frames together.
+		Many to Many relationship lets us expand this in the future
+	"""
+	images = models.ManyToManyField(ImageGraphPair)
+
+class Plugin(models.Model):
+	"""
+		A base class
+	"""
+
+	def register(self):
+		pass
+
+class GraphPlugin(Plugin):
+	"""
+		Has all the plugin methods, plus some particular to graphing.
+		A future plugin for this could be one specific to calling an external script
+		to make the graphs (like R). It would have a path to the script and arguments
+		including the path to a data csv and an output location, then it would write
+		out the time series data to that csv, expect the images in the output location,
+		along with some sort of manifest file that it could read back in and add to the
+		database.
+	"""
 
 class DataType(models.Model):
 	name = models.CharField(max_length=255)
