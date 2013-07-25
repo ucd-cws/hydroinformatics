@@ -4,6 +4,8 @@ Celery
 RabbitMQ
 
 usgs-api
+PIL
+simplejson
 ImageMagick (with C/C++ Development Headers)
 wand
 

@@ -51,8 +51,7 @@ def add_data_source(request):
 			data_source_form.save()
 			cont = RequestContext(request, {'content_html': 'Station created', 'section_title': "Data Sources", })
 		else:
-			cont = RequestContext(request,
-								  {'content_html': 'Error creating station', 'section_title': "Data Sources", })
+			cont = RequestContext(request, {'content_html': 'Error creating station', 'section_title': "Data Sources", })
 
 		return HttpResponse(template.render(cont))
 
