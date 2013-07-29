@@ -11,3 +11,6 @@ wand
 
 Ruby
 compass
+
+code_library
+Pysolar

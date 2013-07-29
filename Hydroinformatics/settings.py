@@ -1,8 +1,8 @@
 # Django settings for Hydroinformatics project.
 import os
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+from local_settings import *
+
 APPEND_SLASH = True
 
 ADMINS = (	# ('Your Name', 'your_email@example.com'),
@@ -13,16 +13,7 @@ _current_dir = os.getcwd()
 
 MANAGERS = ADMINS
 
-DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-		'NAME': 'hydro.sqlite3',  # Or path to database file if using sqlite3.
-		'USER': '',  # Not used with sqlite3.
-		'PASSWORD': '',  # Not used with sqlite3.
-		'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
-		'PORT': '',  # Set to empty string for default. Not used with sqlite3.
-	}
-}
+
 
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 8025
@@ -52,13 +43,13 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-media_folder = os.path.join(_current_dir, "public", "media")
+media_folder = os.path.join(_current_dir, "public", "Hydroinformatics", "media")
 MEDIA_ROOT = media_folder
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = '/static/media/'
+MEDIA_URL = '/static/Hydroinformatics/media/'
 
 static_main = os.path.join(_current_dir, "public")
 static_server = os.path.join(_current_dir, "public")
@@ -120,6 +111,8 @@ TEMPLATE_DIRS = (
 	'C:/Users/nicksantos/Documents/Hydroinformatics/templates',
 )
 
+
+
 INSTALLED_APPS = (
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -132,6 +125,7 @@ INSTALLED_APPS = (
 	# Uncomment the next line to enable admin documentation:
 	# 'django.contrib.admindocs',
 	'hydro',
+	'celery',
 )
 
 # A sample logging configuration. The only tangible logging

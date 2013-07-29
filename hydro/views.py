@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import Context, Template, loader, TemplateDoesNotExist, RequestContext
 from django.template.loader import render_to_string
 from django.core import exceptions
+from django.views import generic
 
 import logging
 
@@ -17,6 +18,19 @@ import simplejson
 
 # Get an instance of a logger
 log = logging.getLogger(__name__)
+
+
+class site_detail_view(generic.DetailView):
+	model = models.Site
+	context_object_name = "detail_object"
+
+	def get_context_data(self, *args, **kwargs):
+		# Call the base implementation first to get a context
+		context = super(generic.DetailView, self).get_context_data(**kwargs)
+		# Add in a QuerySet of all the books
+		context['section_title'] = "Sites"
+		context['photo'] = context['detail_object'].representative_photo.url
+		return context
 
 
 def home(request):

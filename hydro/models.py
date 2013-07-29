@@ -1,12 +1,14 @@
 from django.db import models
 
-# Create your models here.
 
 class River(models.Model):
 	name = models.CharField(max_length = 255)
 
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
+
+	def __unicode__(self):
+		return unicode(self.name)
 
 
 class Station(models.Model):
@@ -18,13 +20,18 @@ class Station(models.Model):
 	lon = models.FloatField(null=True,)
 
 	def __unicode__(self):
+		return unicode(self.name)
+
+	def __str__(self):
 		return self.name
 
 	def retrieve_station_data(self):
 		pass
 
+
 class Graph(models.Model):
 	pass
+
 
 class Site(models.Model):
 	name = models.CharField(max_length=255)
@@ -32,9 +39,23 @@ class Site(models.Model):
 	lat = models.FloatField(null=True,)
 	lon = models.FloatField(null=True,)
 	notes = models.TextField()
+	representative_photo = models.ImageField(upload_to="photos/%Y/%m/%d")
+	shortcode = models.CharField(max_length=10, unique=True)
+
+	def __str__(self):
+		return self.name
+
+	def __unicode__(self):
+		return unicode(self.name)
 
 class User(models.Model):
 	name = models.CharField(max_length=30)
+
+	def __str__(self):
+		return self.name
+
+	def __unicode__(self):
+		return unicode(self.name)
 
 class Video(models.Model):
 	user = models.ForeignKey(User)
@@ -44,11 +65,54 @@ class Video(models.Model):
 	height = models.IntegerField()
 	time_start = models.DateTimeField()
 	time_end = models.DateTimeField()
+	graphs = () ## TODO: Add field for storing multiple graph plugin keys
+	formatter = () # TODO: Add formatter object. Specifies the layout of the video. Should have a represenation and accept a list of images and a list of graphs and return a frame
+
+
+class Camera(models.Model):
+	name = models.CharField(max_length=100)
+	model_name = models.CharField(max_length=100, null=True)
+
+	time_exif_field = models.CharField(max_length=50)  # the metadata field we'll grab the time from
+	time_regex = models.CharField(max_length=255)  # regex to extract the time data
+
+	has_baro = models.BooleanField(default=False)
+	baro_exif_field = models.CharField(max_length=50, null=True)  # the metadata field we'll grab the time from
+	baro_regex = models.CharField(max_length=255, null=True)  # regex to extract the time data
+	baro_units = models.CharField(max_length=10, null=True)
+
+	has_site = models.BooleanField(default=False)
+	site_field = models.CharField(max_length=50, null=True)  # the metadata field we'll grab the site from
+	site_regex = models.CharField(max_length=255, null=True)  # regex to extract the time data
+
+	representative_photo = models.ImageField(upload_to="photos/cameras/%Y/", null=True)
 
 class Image(models.Model):
-	location = models.CharField(max_length=255) # where it is on the filesystem
+	file = models.ImageField(upload_to='self.get_location')  # where it is on the filesystem
 	width = models.IntegerField()
 	height = models.IntegerField()
+	site = models.ForeignKey(Site, null=True) # these should all be defined, but it's possible that it'll be added in processing
+	sun_angle = models.DecimalField(max_digits=12, decimal_places=10, null=True)
+
+	timestamp = models.DateTimeField(null=True)
+	timestamp_raw = models.CharField(max_length=25, null=True)
+	timestamp_seconds = models.IntegerField(null=True)  # so we can easily compare to other images and items
+	camera = models.ForeignKey(Camera)
+
+	is_processed = models.BooleanField(default=False) # flag we set to indicate whether or not the image is ready to use
+
+
+	def get_location(self):
+		return "photos/sites/" + site + "/%Y/%m/%d"
+
+	def is_daytime(self):
+		if self.sun_angle > 0:
+			return True
+		else:
+			return False
+
+	def is_nighttime(self):
+		return not self.is_daytime()
 
 class ImageGraphPair(models.Model):
 	"""

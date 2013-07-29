@@ -11,10 +11,10 @@
     {% endif %}
 
     {% if sources_sites %}
-        <h3>CWS Sites on this river</h3>
+        <h3>Sites on this river</h3>
 		<ul>
         {% for site in sources_sites %}
-            <li>{{ site.name }}</li>
+            <li><a href="/sites/{{ site.id }}">{{ site.name }}</a></li>
         {% endfor %}
 		</ul>
 {% endif %}

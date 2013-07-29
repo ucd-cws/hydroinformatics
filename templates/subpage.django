@@ -4,6 +4,8 @@
     <h2>{{ section_title }}</h2>
     {% if subtitle %}
         <h3>{{ subtitle }}</h3>
+    {% elif detail_object and detail_object.name %}
+        <h3>{{ detail_object.name }}</h3>
     {% endif %}
 {%  endblock %}
 

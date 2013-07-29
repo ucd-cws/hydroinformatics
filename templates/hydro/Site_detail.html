@@ -1,0 +1,8 @@
+{% extends "subpage.django" %}
+{% block content %}
+
+{% if photo %}
+    <img src="{{ photo }}" width="300" class="site_photo representative_photo"/>
+{% endif %}
+
+{% endblock %}

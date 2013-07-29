@@ -5,7 +5,7 @@
     <a class="button" style="position:relative;float:right" href="new">New</a>
     <ol>
     {%  for object in objects %}
-        <li><a href="./{{ object.id }}">{{ object }}</a></li>
+        <li>{% if object.representative_photo %}<img src="{{ object.representative_photo.url }}" height="120" style="height:120px" />{% endif %}<a href="./{{ object.id }}">{{ object }}</a></li>
     {% endfor %}
     </ol>
 {% endblock %}
