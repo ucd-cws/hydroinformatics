@@ -35,14 +35,14 @@ def process_image_list(images):
 		ImageProcessor(image.id).delay()
 
 
-class ImageProcessor(Task):
-	def __init__(self, id):
-		self.image_id = id
+#class ImageProcessor(Task):
+#	def __init__(self, id):
+#		self.image_id = id
 
-	def run(self):
-		self.process_image()
+#	def run(self):
+#		self.process_image()
 
-	def process_image(self):
+#	def process_image(self):
 		"""
 			Processes the image based upon configuration
 		"""
