@@ -39,7 +39,7 @@ class Site(models.Model):
 	lat = models.FloatField(null=True,)
 	lon = models.FloatField(null=True,)
 	notes = models.TextField()
-	representative_photo = models.ImageField(upload_to="photos/%Y/%m/%d")
+	representative_photo = models.ImageField(upload_to="photos/sites/%Y/%m")
 	shortcode = models.CharField(max_length=10, unique=True)
 
 	def __str__(self):
