@@ -12,7 +12,7 @@ class River(models.Model):
 
 
 class Station(models.Model):
-	name = models.CharField(max_length = 255)
+	name = models.CharField(max_length=255)
 	source_url = models.URLField(default="http://waterservices.usgs.gov/nwis/iv/?")
 	usgs_id = models.IntegerField()
 	river = models.ForeignKey(River)
@@ -48,6 +48,7 @@ class Site(models.Model):
 	def __unicode__(self):
 		return unicode(self.name)
 
+
 class User(models.Model):
 	name = models.CharField(max_length=30)
 
@@ -56,17 +57,6 @@ class User(models.Model):
 
 	def __unicode__(self):
 		return unicode(self.name)
-
-class Video(models.Model):
-	user = models.ForeignKey(User)
-	sites = models.ManyToManyField(Site)
-	stations = models.ManyToManyField(Station)
-	width = models.IntegerField()
-	height = models.IntegerField()
-	time_start = models.DateTimeField()
-	time_end = models.DateTimeField()
-	graphs = () ## TODO: Add field for storing multiple graph plugin keys
-	formatter = () # TODO: Add formatter object. Specifies the layout of the video. Should have a represenation and accept a list of images and a list of graphs and return a frame
 
 
 class Camera(models.Model):
@@ -88,22 +78,23 @@ class Camera(models.Model):
 	representative_photo = models.ImageField(upload_to="photos/cameras/%Y/", null=True)
 
 class Image(models.Model):
-	file = models.ImageField(upload_to='self.get_location')  # where it is on the filesystem
+	image = models.ImageField(upload_to='self.get_location', width_field="width", height_field="height")  # where it is on the filesystem
 	width = models.IntegerField()
 	height = models.IntegerField()
 	site = models.ForeignKey(Site, null=True) # these should all be defined, but it's possible that it'll be added in processing
 	sun_angle = models.DecimalField(max_digits=12, decimal_places=10, null=True)
 
+	baro_value = models.DecimalField(max_digits=12, decimal_places=10, null=True)
 	timestamp = models.DateTimeField(null=True)
 	timestamp_raw = models.CharField(max_length=25, null=True)
 	timestamp_seconds = models.IntegerField(null=True)  # so we can easily compare to other images and items
 	camera = models.ForeignKey(Camera)
 
-	is_processed = models.BooleanField(default=False) # flag we set to indicate whether or not the image is ready to use
+	is_processed = models.BooleanField(default=False)  # flag we set to indicate whether or not the image is ready to use
 
 
 	def get_location(self):
-		return "photos/sites/" + site + "/%Y/%m/%d"
+		return "photos/sites/" + self.site + "/%Y/%m/%d"
 
 	def is_daytime(self):
 		if self.sun_angle > 0:
@@ -113,6 +104,20 @@ class Image(models.Model):
 
 	def is_nighttime(self):
 		return not self.is_daytime()
+
+class Video(models.Model):
+	user = models.ForeignKey(User)
+	sites = models.ManyToManyField(Site)
+	stations = models.ManyToManyField(Station)
+	width = models.IntegerField()
+	height = models.IntegerField()
+	time_start = models.DateTimeField()
+	time_end = models.DateTimeField()
+	images = models.ManyToManyField(Image)
+	graphs = () ## TODO: Add field for storing multiple graph plugin keys
+	formatter = () # TODO: Add formatter object. Specifies the layout of the video. Should have a represenation and accept a list of images and a list of graphs and return a frame
+
+
 
 class ImageGraphPair(models.Model):
 	"""

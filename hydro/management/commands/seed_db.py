@@ -8,8 +8,13 @@ from django.core.management.base import BaseCommand, CommandError
 
 from hydro import models
 from hydro import images
-from Hydroinformatics import settings
+from hydro import tasks
 
+from Hydroinformatics import settings
+try:
+	from code_library.common import utils2
+except:
+	from code_library_backup.common import utils2
 
 class Command(BaseCommand):
 	args = ''
@@ -20,6 +25,7 @@ class Command(BaseCommand):
 		self.read_rivers()
 		self.read_sites()
 		self.read_cameras()
+		self.read_photos()
 		self.seed()
 		self.stdout.write("Done - running this again will double up the data\n")
 		self.exit()
@@ -34,13 +40,26 @@ class Command(BaseCommand):
 
 	def read_cameras(self):
 		self.cameras_csv_file = open(os.path.join(self.data_folder, "cameras.csv"), 'rb')
-		self.cameras = csv.DictReader(self.sites_csv_file)
+		self.cameras = csv.DictReader(self.cameras_csv_file)
+
+	def read_photos(self):
+		self.photos = utils2.listdir_by_ext(os.path.join(self.data_folder, "sample_photos"), "JPG", full=True)
 
 	def seed(self):
 		self.seed_gages_and_rivers()
 		self.seed_sites()
 		self.seed_cameras()
+		self.seed_photos()
 		# TODO: This should export fixtures when it's done
+
+	def seed_photos(self):
+
+		cam = models.Camera.objects.get(name="Moultrie")
+		for photo in self.photos:
+			tp = models.Image(image=images.make_temp_photo(photo), camera=cam)  # assign the first camera to the image
+			tp.save()
+			tasks.process_image(tp.pk).delay()  # set up processing
+
 
 	def seed_gages_and_rivers(self):
 		added_rivers = {}
@@ -87,12 +106,13 @@ class Command(BaseCommand):
 			)
 
 			new_site.save()
-			print "Added site %s" % site['name']
+			#print "Added site %s" % site['name']
 
 	def seed_cameras(self):
 		print "seeding cameras"
 
 		for cam in self.cameras:
+			print "adding %s" % cam['name']
 			new_camera = models.Camera(
 				name=cam['name'],
 				model_name=cam['model_name'],

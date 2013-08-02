@@ -1,5 +1,7 @@
 # Django settings for Hydroinformatics project.
 import os
+import djcelery
+djcelery.setup_loader()
 
 from local_settings import *
 
@@ -125,7 +127,7 @@ INSTALLED_APPS = (
 	# Uncomment the next line to enable admin documentation:
 	# 'django.contrib.admindocs',
 	'hydro',
-	'celery',
+	'djcelery',
 )
 
 # A sample logging configuration. The only tangible logging
