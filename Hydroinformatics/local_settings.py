@@ -10,6 +10,11 @@ BROKER_U = "guest"
 BROKER_PASS = "guest"
 BROKER_URL = 'amqp://%s:%s@%s:%s/%s' % (BROKER_U, BROKER_PASS, BROKER_H, BROKER_P, BROKER_VH)
 
+#CELERY_DISABLE_RATE_LIMITS = True
+CELERY_IMPORTS = ['hydro.tasks']
+
+image_sizes = (300, 720, 1280, 1980) # sizes of images to generate
+
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.

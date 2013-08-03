@@ -87,6 +87,7 @@ class Image(models.Model):
 	image = models.ImageField(upload_to='self.get_location', width_field="width", height_field="height")  # where it is on the filesystem
 	width = models.IntegerField()
 	height = models.IntegerField()
+
 	site = models.ForeignKey(Site, null=True) # these should all be defined, but it's possible that it'll be added in processing
 	sun_angle = models.DecimalField(max_digits=12, decimal_places=10, null=True)
 
@@ -114,7 +115,22 @@ class Image(models.Model):
 			return False
 
 	def is_nighttime(self):
-		return not self.is_daytime()
+		return not self.is_daytime
+
+	def other_sizes(self):
+		return ImageSize.objects.filter(parent_image=self)  # this seems like the wrong way to do this
+
+
+class ImageSize(models.Model):
+	"""
+		Other sizes of images.
+	"""
+	# TODO: May not need this with imagekit now
+	image = models.ImageField(upload_to='self.get_location', width_field="width", height_field="height")  # where it is on the filesystem
+	width = models.IntegerField()
+	height = models.IntegerField()
+
+	parent_image = models.ForeignKey(Image)
 
 class Video(models.Model):
 	user = models.ForeignKey(User)

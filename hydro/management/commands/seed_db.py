@@ -59,8 +59,8 @@ class Command(BaseCommand):
 		for photo in self.photos:
 			tp = models.Image(image=images.make_temp_photo(photo), camera=cam)  # assign the first camera to the image
 			tp.save()
-			process_image(tp.pk).delay()  # set up processing
-
+			#process_image(tp.pk).delay()  # set up processing
+			# TODO: Skipping Automatic Processing for Now in order to enter photos in - it was broken. Use management command "process_images
 
 	def seed_gages_and_rivers(self):
 		added_rivers = {}

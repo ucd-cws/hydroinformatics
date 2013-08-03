@@ -35,7 +35,7 @@ class site_detail_view(generic.DetailView):
 
 class list_processed_photos(generic.ListView):
 	queryset = models.Image.objects.filter(is_processed=True).order_by('sun_angle')
-	context_object_name = "Images"
+	context_object_name = "images"
 	template_name = "images.django"
 
 def home(request):

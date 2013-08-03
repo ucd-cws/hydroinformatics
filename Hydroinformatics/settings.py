@@ -16,7 +16,6 @@ _current_dir = os.getcwd()
 MANAGERS = ADMINS
 
 
-
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 8025
 

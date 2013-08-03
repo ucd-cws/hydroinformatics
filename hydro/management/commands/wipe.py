@@ -21,4 +21,5 @@ class Command(BaseCommand):
 			print "Couldn't delete database - it may not exist"
 		call_command('syncdb', interactive=False)
 		call_command('seed_db', interactive=False)
+		call_command('process_images', interactive=False)
 

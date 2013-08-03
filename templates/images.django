@@ -1,0 +1,14 @@
+{% extends "listing.django" %}
+
+{% block content %}
+
+<ul class="image_listing">
+{% for image in images %}
+    <li>
+        <img src="{{ image.image.url }}" width="300">
+        {{ image.sun_angle }}
+    </li>
+{%  endfor %}
+</ul>
+
+{% endblock %}
