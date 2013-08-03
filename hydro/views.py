@@ -33,6 +33,11 @@ class site_detail_view(generic.DetailView):
 		return context
 
 
+class list_processed_photos(generic.ListView):
+	queryset = models.Image.objects.filter(is_processed=True).order_by('sun_angle')
+	context_object_name = "Images"
+	template_name = "images.django"
+
 def home(request):
 	template = loader.get_template("index.django")
 	cont = RequestContext(request, {})

@@ -8,7 +8,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 from hydro import models
 from hydro import images
-from hydro import tasks
+from hydro.tasks import process_image
 
 from Hydroinformatics import settings
 try:
@@ -55,10 +55,11 @@ class Command(BaseCommand):
 	def seed_photos(self):
 
 		cam = models.Camera.objects.get(name="Moultrie")
+		print "Seeding %s photos" % len(self.photos)
 		for photo in self.photos:
 			tp = models.Image(image=images.make_temp_photo(photo), camera=cam)  # assign the first camera to the image
 			tp.save()
-			tasks.process_image(tp.pk).delay()  # set up processing
+			process_image(tp.pk).delay()  # set up processing
 
 
 	def seed_gages_and_rivers(self):
@@ -101,6 +102,8 @@ class Command(BaseCommand):
 				name=site['name'],
 				river=river,
 				notes="imported via seed_db",
+				lat=site['lat'],
+				lon=site['lon'],
 				representative_photo=photo,
 				shortcode=site['shortcode']
 			)
@@ -121,7 +124,7 @@ class Command(BaseCommand):
 				baro_exif_field=cam['baro_exif_field'],
 				baro_regex=cam['baro_regex'],
 				baro_units=cam['baro_units'],
-				site_field=cam['site_field'],
+				site_exif_field=cam['site_field'],
 				site_regex=cam['site_regex'],
 			)
 

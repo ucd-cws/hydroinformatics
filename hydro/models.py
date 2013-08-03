@@ -72,10 +72,16 @@ class Camera(models.Model):
 	baro_units = models.CharField(max_length=10, null=True)
 
 	has_site = models.BooleanField(default=False)
-	site_field = models.CharField(max_length=50, null=True)  # the metadata field we'll grab the site from
+	site_exif_field = models.CharField(max_length=50, null=True)  # the metadata field we'll grab the site from
 	site_regex = models.CharField(max_length=255, null=True)  # regex to extract the time data
 
 	representative_photo = models.ImageField(upload_to="photos/cameras/%Y/", null=True)
+
+	def __str__(self):
+		return self.name
+
+	def __unicode__(self):
+		return unicode(self.name)
 
 class Image(models.Model):
 	image = models.ImageField(upload_to='self.get_location', width_field="width", height_field="height")  # where it is on the filesystem
@@ -88,18 +94,23 @@ class Image(models.Model):
 	timestamp = models.DateTimeField(null=True)
 	timestamp_raw = models.CharField(max_length=25, null=True)
 	timestamp_seconds = models.IntegerField(null=True)  # so we can easily compare to other images and items
+	timestamp_utc = models.DateTimeField(null=True)
 	camera = models.ForeignKey(Camera)
 
-	is_processed = models.BooleanField(default=False)  # flag we set to indicate whether or not the image is ready to use
+	daytime_buffer = models.SmallIntegerField(max_length=3, default=5)
 
+	is_processed = models.BooleanField(default=False)  # flag we set to indicate whether or not the image is ready to use
+	is_daytime = models.BooleanField(default=False)
 
 	def get_location(self):
 		return "photos/sites/" + self.site + "/%Y/%m/%d"
 
-	def is_daytime(self):
-		if self.sun_angle > 0:
+	def daytime_check(self):
+		if self.sun_angle > (0-self.daytime_buffer):
+			self.is_daytime = True
 			return True
 		else:
+			self.is_daytime = False
 			return False
 
 	def is_nighttime(self):

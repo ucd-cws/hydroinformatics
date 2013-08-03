@@ -3,11 +3,12 @@ __author__ = 'nrsantos'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-BROKER_HOST = "127.0.0.1"
-BROKER_PORT = 5672
-BROKER_VHOST = "/"
-BROKER_USER = "guest"
-BROKER_PASSWORD = "guest"
+BROKER_H = "localhost"
+BROKER_P = 5672
+BROKER_VH = "/"
+BROKER_U = "guest"
+BROKER_PASS = "guest"
+BROKER_URL = 'amqp://%s:%s@%s:%s/%s' % (BROKER_U, BROKER_PASS, BROKER_H, BROKER_P, BROKER_VH)
 
 DATABASES = {
 	'default': {
