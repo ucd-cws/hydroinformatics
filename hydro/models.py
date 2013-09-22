@@ -48,6 +48,11 @@ class Site(models.Model):
 	def __unicode__(self):
 		return unicode(self.name)
 
+	def get_images(self):
+		"""
+			Returns daytime images for a site. If you want specific date ranges, run another filter on the returned object
+		"""
+		return Image.objects.filter(site=self.pk,is_daytime=True)
 
 class User(models.Model):
 	name = models.CharField(max_length=30)
@@ -119,7 +124,6 @@ class Image(models.Model):
 
 	def other_sizes(self):
 		return ImageSize.objects.filter(parent_image=self)  # this seems like the wrong way to do this
-
 
 class ImageSize(models.Model):
 	"""

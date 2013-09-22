@@ -1,3 +1,6 @@
 syntax: glob
 .idea/*
 *.pyc
+public/Hydroinformatics/media/photos/cameras/*
+public/Hydroinformatics/media/self.get_location/*
+public/Hydroinformatics/media/photos/sites/*

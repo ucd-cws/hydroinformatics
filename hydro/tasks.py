@@ -3,6 +3,9 @@ __author__ = 'nrsantos'
 import datetime
 import time
 import pytz
+import arrow # times for non-crazy people
+
+import ulmo
 
 import Image as PIL # need to rename it or it collides with our model
 
@@ -50,7 +53,8 @@ def process_image(image_id, exif_registry=None):
 	)
 
 	# TODO: Add timezone support. More confusing than I can handle right now
-	ldt = datetime.datetime.strptime(image.timestamp_raw, "%m/%d/%y %I:%M %p")  # " month/day/year hour:minute AM/PM
+	# FLAG: THIS IS NOW AN ARROW OBJECT, NOT DATETIME. CONVERSION INCOMPLETE. SECTION BROKEN. Next line is arrow, everything following is datetime.
+	ldt = arrow.get(image.timestamp_raw, "%m/%d/%y %I:%M %p")  # " month/day/year hour:minute AM/PM
 	image.timestamp_seconds = time.mktime(ldt.timetuple())
 	image.timestamp = ldt  # image.timestamp is a datetime field, so we should be able to just assign directly
 	t = time.gmtime(image.timestamp_seconds)

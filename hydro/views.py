@@ -10,6 +10,7 @@ from django.views import generic
 import logging
 
 from Hydroinformatics import settings
+from hydro.plugins.formatters import IFormatterRegistry
 import models
 import forms
 #import utils
@@ -38,10 +39,19 @@ class list_processed_photos(generic.ListView):
 	context_object_name = "images"
 	template_name = "images.django"
 
+
 def home(request):
 	template = loader.get_template("index.django")
 	cont = RequestContext(request, {})
 	return HttpResponse(template.render(cont))
+
+
+def process(request, plugin,):
+	if plugin in IFormatterRegistry.plugins_by_name:
+		formatter = IFormatterRegistry.plugins_by_name[plugin]
+		entry_point = formatter._get_process_entry_hook()
+		if entry_point is not None:
+			entry_point()
 
 
 def data_sources(request):
