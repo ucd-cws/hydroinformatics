@@ -9,10 +9,17 @@ except:
 
 import os
 
-all_machines_commands = (
+debian_commands = (
 	"pip install virtualenv",
-	"virtualenv hydroinformatics",
-	"source bin/activate", 
+	"pip install virtualenvwrapper",
+	"export WORKON_HOME=~/Envs",
+	"mkdir -p $WORKON_HOME",
+	"source /usr/local/bin/virtualenvwrapper.sh",
+	"mkvirtualenv hydroinformatics",
+
+)
+
+all_machines_commands = (
 	"pip install arrow",
 	"pip install ulmo",
 	"pip install PIL",
@@ -34,17 +41,18 @@ def commit_and_push():
 	#local("hg")
 	local("hg push")
 
-def setup_local():
-	for command in all_machines_commands:
+def setup_local_from_list(all_commands):
+	for command in all_commands:
 		local(command)
 
-def setup_all():
-	for command in all_machines_commands:
+def setup_remote_from_list(all_commands):
+	for command in all_commands:
 		run(command)
 
-def setup_linux():
-	setup_all()
+def setup_linux_local():
 	setup_debian()
+	setup_local_from_list(debian_commands)
+	setup_local_from_list(all_machines_commands)
 
 def setup_debian():
 	"""
@@ -61,7 +69,7 @@ def setup_debian_continued():
 	# basic tools
 	local("sudo apt-get install mercurial")
 	local("sudo apt-get install python-pip")
-	setup_local()
+	setup_local_from_list(all_machines_commands)
 
 def setup_windows():
-	setup_all()
+	setup_local_from_list(all_machines_commands)
