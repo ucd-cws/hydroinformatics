@@ -3,7 +3,7 @@ __author__ = 'nrsantos'
 import datetime
 import time
 import pytz
-import arrow # times for non-crazy people
+import arrow  # times for non-crazy people
 
 import ulmo
 
@@ -52,14 +52,11 @@ def process_image(image_id, exif_registry=None):
 		exif_registry=exif_registry
 	)
 
-	# TODO: Add timezone support. More confusing than I can handle right now
-	# FLAG: THIS IS NOW AN ARROW OBJECT, NOT DATETIME. CONVERSION INCOMPLETE. SECTION BROKEN. Next line is arrow, everything following is datetime.
-	ldt = arrow.get(image.timestamp_raw, "%m/%d/%y %I:%M %p")  # " month/day/year hour:minute AM/PM
-	image.timestamp_seconds = time.mktime(ldt.timetuple())
-	image.timestamp = ldt  # image.timestamp is a datetime field, so we should be able to just assign directly
-	t = time.gmtime(image.timestamp_seconds)
-	image.timestamp_utc = utc_datetime = datetime.datetime(t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec, tzinfo=pytz.utc)
-
+	ldt = arrow.get(image.timestamp_raw, "%m/%d/%y %I:%M %p", 'US/Pacific')  # " month/day/year hour:minute AM/PM
+	# TODO: For now, hardcoding in US/Pacific. In the future, this should be per site
+	image.timestamp_seconds = ldt.timestamp
+	image.timestamp = ldt.datetime  # image.timestamp is a datetime field, so we should be able to just assign directly
+	image.timestamp_utc = utc_datetime = ldt.to('utc').timestamp
 
 	if image.camera.has_baro:
 		image.baro_value = common.image.extract_value_from_exif(
