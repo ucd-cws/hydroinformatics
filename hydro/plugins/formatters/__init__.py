@@ -6,7 +6,9 @@ class IFormatterRegistry(type): # Build a metaclass that inherits from "type" - 
 
 	def __init__(cls, name, bases, attrs):
 		#super(IFormatterRegistry, cls).__init__()
-		if name != 'IFormatter':  # if it's not the base class
+
+
+	def _get_process_entry_hook(self):if name != 'IFormatter':  # if it's not the base class
 			IFormatterRegistry.plugins.append(cls) # plugins is already an object since it's built in the class, not in an instance
 			IFormatterRegistry.plugins_by_name[cls.__name__] = cls # add it to the index
 
@@ -17,8 +19,6 @@ class IFormatter(object):
 		self.data_series = data_series
 		self.photo_series = photo_series
 
-
-	def _get_process_entry_hook(self):
 		"""
 			Process entry hook is the hook a plugin uses to take over for the full processing of a video
 		"""

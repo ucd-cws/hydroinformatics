@@ -7,7 +7,7 @@ import arrow  # times for non-crazy people
 
 import ulmo
 
-import Image as PIL # need to rename it or it collides with our model
+import Image as PIL  # need to rename it or it collides with our model
 
 from hydro.models import Image, Site
 from Hydroinformatics.settings import image_sizes
