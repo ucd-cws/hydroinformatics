@@ -10,7 +10,7 @@ from django.views import generic
 import logging
 
 from Hydroinformatics import settings
-from hydro.plugins.formatters import IFormatterRegistry
+#from hydro.plugins.formatters import IFormatterRegistry
 import models
 import forms
 #import utils
@@ -121,8 +121,7 @@ def rivers(request):
 	cont = RequestContext(request, {'objects': rivers, 'section_title': "Rivers", })
 
 	return HttpResponse(template.render(cont))
-
-
+	
 def single_river(request, river_id=None):
 	river = get_object_or_404(models.River, pk=river_id)
 	sources_stations = models.Station.objects.filter(river=river.pk)
@@ -142,4 +141,13 @@ def sites(request):
 	template = loader.get_template("listing.django")
 	cont = RequestContext(request, {'objects': sites, 'section_title': "Sites", })
 
+	return HttpResponse(template.render(cont))
+	
+	
+def graphs(request):
+	graphs = models.Graphs.objects.all()
+	
+	template = loader.get_template("listing.django")
+	cont = RequestContext(request, {'objects': graphs, 'section_title': "Graphs", })
+		
 	return HttpResponse(template.render(cont))

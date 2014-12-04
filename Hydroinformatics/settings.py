@@ -17,7 +17,7 @@ _current_dir = os.getcwd()
 
 MANAGERS = ADMINS
 
-plugins.discover([os.path.join(_current_dir, "hydro", "plugins", "formatters"),])
+#plugins.discover([os.path.join(_current_dir, "hydro", "plugins", "formatters"),])
 
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 8025
