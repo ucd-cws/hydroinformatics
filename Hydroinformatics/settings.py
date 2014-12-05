@@ -5,7 +5,7 @@ djcelery.setup_loader()
 
 from local_settings import *
 
-from hydro import plugins
+#from hydro import plugins
 
 APPEND_SLASH = True
 
