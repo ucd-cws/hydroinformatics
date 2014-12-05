@@ -5,6 +5,9 @@ import sqlite3
 import matplotlib
 
 """
+wants graph creation first from csv files
+then can save 
+
 class Graphs(Models.model):
 	Location --> Site
 
@@ -12,15 +15,17 @@ class Graphs(Models.model):
 	x-values
 	y-values
 """
+def create_graph():
 
 
 def grab_datetimes():
 	#reader = csv.reader(file_obj)
 	# for row in reader: 
 		#do something in row 
-def create_graph():
+		
 
 def save_graph():
-	conn = sqlite3.connect("mydatabase.db")
-	cursor = conn.cursor()
+	#conn = sqlite3.connect("mydatabase.db")
+	#cursor = conn.cursor()
 
+	
