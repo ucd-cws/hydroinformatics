@@ -7,6 +7,12 @@ from django.template.loader import render_to_string
 from django.core import exceptions
 from django.views import generic
 
+#for graphing
+
+from matplotlib import pylab
+from pylab import *
+import PIL, PIL.Image, StringIO
+
 import logging
 
 from Hydroinformatics import settings
@@ -19,6 +25,16 @@ import simplejson
 
 # Get an instance of a logger
 log = logging.getLogger(__name__)
+
+#matplotlib PNG image and storage
+def graph(reguest):
+
+	#construct the graph
+	 #read and format csv data
+	#store the image as a string buffer
+	#send buffer in a httpresponse with the mime type image/png set
+
+
 
 
 class site_detail_view(generic.DetailView):
