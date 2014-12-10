@@ -8,7 +8,7 @@ from django.core import exceptions
 from django.views import generic
 
 #for graphing
-
+from test import *
 from matplotlib import pylab
 from pylab import *
 import PIL, PIL.Image, StringIO
@@ -28,9 +28,10 @@ log = logging.getLogger(__name__)
 
 #matplotlib PNG image and storage
 def graph(reguest):
-
+#CSV files stored statically, local backend
 	#construct the graph
-	 #read and format csv data
+
+    #read and format csv data
 	#store the image as a string buffer
 	#send buffer in a httpresponse with the mime type image/png set
 
