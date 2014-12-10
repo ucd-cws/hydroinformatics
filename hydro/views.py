@@ -1,34 +1,42 @@
 # Create your views here.
 
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render_to_response
-from django.template import Context, Template, loader, TemplateDoesNotExist, RequestContext
-from django.template.loader import render_to_string
-from django.core import exceptions
-from django.views import generic
+from django.shortcuts import get_object_or_404
+from django.template import loader, RequestContext
+
+
 
 #for graphing
-from test import *
-from matplotlib import pylab
 from pylab import *
-import PIL, PIL.Image, StringIO
-
+from mlgraph import test
 import logging
 
-from Hydroinformatics import settings
+#for grabbing files from the storage system
+from django.core.files.storage import FileSystemStorage
+from django.core.files.storage import Storage
+from django.core.files.base import ContentFile
+
+
 #from hydro.plugins.formatters import IFormatterRegistry
 import models
 import forms
 #import utils
-
-import simplejson
 
 # Get an instance of a logger
 log = logging.getLogger(__name__)
 
 #matplotlib PNG image and storage
 def graph(reguest):
-#CSV files stored statically, local backend
+	#CSV files stored statically, local backend
+	#fileName should be in request or another parameter? Have to look up as well
+	fileStorage = FileSystemStorage(location=BASE_DIR) #BASE_DIR = "path to media"???
+	if fileStorage.exsists(fileName):
+		print ("it exsists") #log it not print it have to look that up
+	else:
+		print ("it doesn't") #actually log it instead and send out error and render an error http webpage
+
+	file = fileStorage.open(fileName, mode='r') # to read it
+
 	#construct the graph
 
     #read and format csv data
