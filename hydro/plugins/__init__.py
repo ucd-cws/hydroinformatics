@@ -3,7 +3,7 @@ __author__ = 'nrsantos'
 import os
 import imp
 
-import formatters
+#import formatters
 
 __all__ = ["formatters"]
 

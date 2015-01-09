@@ -10,7 +10,7 @@ from django.views import generic
 import logging
 
 from Hydroinformatics import settings
-from hydro.plugins.formatters import IFormatterRegistry
+#from hydro.plugins.formatters import IFormatterRegistry
 import models
 import forms
 #import utils
@@ -113,6 +113,25 @@ def add_river(request):
 
 		return HttpResponse(template.render(cont))
 
+def add_graphs(request):
+	if request.method == "GET":
+
+		graph_form = forms.GraphForm()
+
+		template = loader.get_template("form.django")
+		cont = RequestContext(request, {'form': graph_form, 'section_title': "Graphs", })
+		return HttpResponse(template.render(cont))
+	elif request.method == "POST":
+		graph_form = forms.GraphForm(request.POST, request.FILES)
+		template = loader.get_template("subpage.django")
+
+		if graph_form.is_valid():
+			graph_form.save()
+			cont = RequestContext(request, {'content_html': 'Graph created', 'section_title': "Graphs", })
+		else:
+			cont = RequestContext(request, {'content_html': 'Error creating graph', 'section_title': "Graphs", })
+
+		return HttpResponse(template.render(cont))
 
 def rivers(request):
 	rivers = models.River.objects.all().order_by('name')
@@ -141,5 +160,14 @@ def sites(request):
 
 	template = loader.get_template("listing.django")
 	cont = RequestContext(request, {'objects': sites, 'section_title': "Sites", })
+
+	return HttpResponse(template.render(cont))
+
+
+def graphs(request):
+	#graphs = models.Graphs.objects.all()
+
+	template = loader.get_template("listing.django")
+	cont = RequestContext(request, {'objects': graphs, 'section_title': "Graphs", })
 
 	return HttpResponse(template.render(cont))

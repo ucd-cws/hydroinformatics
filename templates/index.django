@@ -47,7 +47,9 @@
           </li>
           <li><a href="/rivers">Rivers</a></li>
           <li><a href="/sites">River Sites</a></li>
+          <li><a href="/graphs">Graphs</a></li>
           <li><a href="/settings">Settings</a></li>
+
         </ul>
 
       <!-- End Navigation -->

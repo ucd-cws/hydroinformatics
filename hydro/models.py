@@ -28,9 +28,11 @@ class Station(models.Model):
 	def retrieve_station_data(self):
 		pass
 
-
 class Graph(models.Model):
-	pass
+	name = models.CharField(max_length=255)
+	data = models.FileField()
+#class Graph(models.Model):
+	#pass
 
 
 class Site(models.Model):
@@ -225,3 +227,6 @@ class GraphInstance(models.Model):
 	timestamp = models.DateTimeField()
 	time_from = models.DateTimeField() # the beginning moment of the time this covers
 	time_to = models.DateTimeField() # the end moment of the time period this covers
+
+
+

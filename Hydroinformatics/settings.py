@@ -5,7 +5,7 @@ djcelery.setup_loader()
 
 from local_settings import *
 
-from hydro import plugins
+#from hydro import plugins
 
 APPEND_SLASH = True
 
@@ -17,7 +17,7 @@ _current_dir = os.getcwd()
 
 MANAGERS = ADMINS
 
-plugins.discover([os.path.join(_current_dir, "hydro", "plugins", "formatters"),])
+#plugins.discover([os.path.join(_current_dir, "hydro", "plugins", "formatters"),])
 
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 8025
