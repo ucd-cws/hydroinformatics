@@ -1,0 +1,9 @@
+{% extends "subpage.django" %}
+{% block content %}
+
+    {% if graph %}
+        <h3> {{ graph.name }} </h3>
+
+    {% endif %}
+
+{% endblock  %}
