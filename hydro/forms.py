@@ -17,10 +17,12 @@ class StationDateForm(Form):
 	date_end = forms.DateField()
 	#station =
 
-class GraphForm(Form):
+class GraphForm(ModelForm):
 	class Meta:
-			models.Graph
-	data = forms.FileField()
+			model = models.Graph
+			fields = ['name', 'data']
+	#name = forms.CharField()
+	#data = forms.FileField()
 
 
 class ImageUploadForm(Form): # or should this be a model form?

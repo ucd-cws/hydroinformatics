@@ -10,5 +10,14 @@
 {%  endblock %}
 
 {% block content %}
+
     {{ content_html }}
+    {% if Errors%}
+        <div>
+          <ol>
+            {{ Errors}}
+           </ol>
+         </div>
+    {% endif %}
+
 {% endblock %}

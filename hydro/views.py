@@ -114,24 +114,23 @@ def add_river(request):
 		return HttpResponse(template.render(cont))
 
 def add_graphs(request):
-	if request.method == "GET":
-
-		graph_form = forms.GraphForm()
-
-		template = loader.get_template("form.django")
-		cont = RequestContext(request, {'form': graph_form, 'section_title': "Graphs", })
-		return HttpResponse(template.render(cont))
-	elif request.method == "POST":
+	errors = []
+	if request.method == "POST":
 		graph_form = forms.GraphForm(request.POST, request.FILES)
 		template = loader.get_template("subpage.django")
-
 		if graph_form.is_valid():
 			graph_form.save()
 			cont = RequestContext(request, {'content_html': 'Graph created', 'section_title': "Graphs", })
 		else:
-			cont = RequestContext(request, {'content_html': 'Error creating graph', 'section_title': "Graphs", })
+			errors.append(graph_form.errors)
+			cont = RequestContext(request, {'content_html': 'Error creating graph', 'section_title': "Graphs",'Errors':errors })
+	else:
+		graph_form = forms.GraphForm()
+		template = loader.get_template("form.django")
+		cont = RequestContext(request, {'form': graph_form, 'section_title': "Graph", })
 
-		return HttpResponse(template.render(cont))
+	return HttpResponse(template.render(cont))
+
 
 def rivers(request):
 	rivers = models.River.objects.all().order_by('name')
@@ -165,9 +164,19 @@ def sites(request):
 
 
 def graphs(request):
-	#graphs = models.Graphs.objects.all()
+	graphs = models.Graph.objects.all()
 
 	template = loader.get_template("listing.django")
 	cont = RequestContext(request, {'objects': graphs, 'section_title': "Graphs", })
+
+	return HttpResponse(template.render(cont))
+
+
+def single_graph(request, graph_id=None):
+	graph = get_object_or_404(models.Graph, pk=graph_id)
+
+	template = loader.get_template("graph.django")
+	cont = RequestContext(request,
+						  {'graph': graph, 'section_title': "Graphs", 'graph.name': graph.name })
 
 	return HttpResponse(template.render(cont))
