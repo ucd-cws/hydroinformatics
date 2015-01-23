@@ -23,7 +23,7 @@ hydrourlpatterns = patterns('',
 	
 	url(r'^graphs/$', 'hydro.views.graphs', name="graphs"),
 	url(r'^graphs/new/$', 'hydro.views.add_graphs',name='add_graphs'),
-	url(r'^graphs/(?P<graph_id>\d+?)/$', 'hydro.views.single_graph', name='graph_detail'),
-  	url(r'^graph.png$', views.single_graph)
+	url(r'^graphs/(?P<graph_id>\d+?)/$', 'hydro.views.single_graph', name='graph_detail')
+
 	
 )

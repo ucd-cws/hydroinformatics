@@ -27,3 +27,6 @@ class GraphForm(ModelForm):
 
 class ImageUploadForm(Form): # or should this be a model form?
 	pass
+	
+class Graphs(Form):
+		pass 
