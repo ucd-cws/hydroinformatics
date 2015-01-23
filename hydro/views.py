@@ -121,7 +121,7 @@ def add_river(request):
 
 		return HttpResponse(template.render(cont))
 
-def add_graphs(request):
+def add_graph(request):
 	errors = []
 	if request.method == "POST":
 		graph_form = forms.GraphForm(request.POST, request.FILES)
@@ -182,4 +182,7 @@ def graphs(request):
 
 def single_graph(request, graph_id=None):
 	#will use django-chartit
+
+
+	# first doing it in pylab
 	pass
