@@ -19,11 +19,8 @@ hydrourlpatterns = patterns('',
 	url(r'^sites/(?P<pk>\d+?)/$',views.site_detail_view.as_view(),name='site_detail'),
 
 	url(r'^testing/processed_images/$',views.list_processed_photos.as_view(),name='processed_images_test'),
+	
+	url(r'^graphs/$','hydro.views.graphs',name='graphs')
 
-	
-	url(r'^graphs/$', 'hydro.views.graphs', name="graphs"),
-	url(r'^graphs/new/$', 'hydro.views.add_graphs',name='add_graphs'),
-	url(r'^graphs/(?P<graph_id>\d+?)/$', 'hydro.views.single_graph', name='graph_detail'),
-  	url(r'^graph.png$', views.single_graph)
-	
+
 )

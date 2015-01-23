@@ -1,11 +1,19 @@
 # Create your views here.
-
+from matplotlib import pylab
+from pylab import *
+import PIL, PIL.Image, StringIO
+import csv
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+from matplotlib.dates import DateFormatter
+from collections import defaultdict
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import Context, Template, loader, TemplateDoesNotExist, RequestContext
 from django.template.loader import render_to_string
 from django.core import exceptions
 from django.views import generic
+
 
 import logging
 
@@ -173,10 +181,5 @@ def graphs(request):
 
 
 def single_graph(request, graph_id=None):
-	graph = get_object_or_404(models.Graph, pk=graph_id)
-
-	template = loader.get_template("graph.django")
-	cont = RequestContext(request,
-						  {'graph': graph, 'section_title': "Graphs", 'graph.name': graph.name })
-
-	return HttpResponse(template.render(cont))
+	#will use django-chartit
+	pass
