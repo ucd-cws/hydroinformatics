@@ -2,7 +2,7 @@
 from matplotlib import pylab
 from pylab import *
 import PIL, PIL.Image, StringIO
-import csv
+import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.dates import DateFormatter
@@ -181,8 +181,21 @@ def graphs(request):
 
 
 def single_graph(request, graph_id=None):
-	#will use django-chartit
+	graph = get_object_or_404(models.Graph, pk=graph_id)
 
+	template = loader.get_template("graph.django")
+	cont = RequestContext(request, {'graph': graph, 'section_title': "Graph", })
 
-	# first doing it in pylab
-	pass
+	return HttpResponse(template.render(cont))
+
+def render_graph(request, graph_id=None):
+	graph = get_object_or_404(models.Graph, pk=graph_id)
+	data = np.genfromtxt(graph.data, delimiter=',', names=['x','y']) #extract data from cvs after x and y
+	fig = Figure()
+	ax = fig.add_subplot(111)
+ 	title(graph.name)
+	ax.plot(data['x'], data['y'], label=graph.name)
+	canvas=FigureCanvas(fig)
+	response = HttpResponse(content_type='image/png')
+	canvas.print_png(response)
+	return(response)

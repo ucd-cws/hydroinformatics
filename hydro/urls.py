@@ -15,14 +15,16 @@ hydrourlpatterns = patterns('',
 	url(r'^rivers/(?P<river_id>\d+?)/$', 'hydro.views.single_river', name='river_detail'),
 
 	url(r'^sites/$','hydro.views.sites', name='sites'),
-	url(r'^sites/new/$', 'hydro.views.add_site',name='add_site'),
+	#url(r'^sites/new/$', 'hydro.views.add_site',name='add_site'),
 	url(r'^sites/(?P<pk>\d+?)/$',views.site_detail_view.as_view(),name='site_detail'),
 
 	url(r'^testing/processed_images/$',views.list_processed_photos.as_view(),name='processed_images_test'),
 	
 	url(r'^graphs/$','hydro.views.graphs',name='graphs'),
 	url(r'^graphs/new/$', 'hydro.views.add_graph', name='add_graph'),
-	url(r'^graphs/(?P<graph_id>\d+?)/$', 'hydro.views.single_graph', name='graph_detail')
+	url(r'^graphs/(?P<graph_id>\d+?)/$', 'hydro.views.single_graph', name='graph_detail'),
+	url(r'^graphs/graphImage/(?P<graph_id>\d+?)/$', 'hydro.views.render_graph', name='render_graph')
+
 
 
 )

@@ -3,7 +3,8 @@
 
     {% if graph %}
         <h3> {{ graph.name }} </h3>
-
+        <img alt="missing graph or graph did not render" />
     {% endif %}
+
 
 {% endblock  %}
