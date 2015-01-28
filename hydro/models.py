@@ -31,6 +31,10 @@ class Station(models.Model):
 class Graph(models.Model):
 	name = models.CharField(max_length=255)
 	data = models.FileField()
+
+	def __str__(self):
+		return self.name
+
 #class Graph(models.Model):
 	#pass
 
