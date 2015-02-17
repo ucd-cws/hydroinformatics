@@ -8,7 +8,7 @@ from matplotlib.figure import Figure
 import matplotlib.animation as animation
 from matplotlib.dates import DateFormatter
 from collections import defaultdict
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import Context, Template, loader, TemplateDoesNotExist, RequestContext
 from django.template.loader import render_to_string
@@ -214,12 +214,13 @@ def render_graph(request, graph_id=None):
 def delete_graph(request, graph_id=None):
 	if request.is_ajax():
 		try:
-			deleted = models.Graph.objects.get(pk=request.POST.get('id'));
+			deleted = models.Graph.objects.get(pk=request.POST.get('id'))
 			deleted.delete()
 			#return to listings
 			graphs = models.Graph.objects.all()
 			template = loader.get_template("listing.django")
 			cont = RequestContext(request, {'objects': graphs, 'section_title': "Graphs", })
+			return HttpResponseRedirect(template.render(cont))
 		except:
 			template = loader.get_template("graph.django")
 			cont = RequestContext(request, {'content_html': 'Error deleting graph', 'section_title': "Graphs" })
