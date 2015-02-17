@@ -5,6 +5,7 @@ import PIL, PIL.Image, StringIO
 import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+import matplotlib.animation as animation
 from matplotlib.dates import DateFormatter
 from collections import defaultdict
 from django.http import HttpResponse
@@ -13,6 +14,7 @@ from django.template import Context, Template, loader, TemplateDoesNotExist, Req
 from django.template.loader import render_to_string
 from django.core import exceptions
 from django.views import generic
+from django.views.decorators.csrf import csrf_exempt
 
 
 import logging
@@ -188,14 +190,50 @@ def single_graph(request, graph_id=None):
 
 	return HttpResponse(template.render(cont))
 
+
+
+
+
 def render_graph(request, graph_id=None):
 	graph = get_object_or_404(models.Graph, pk=graph_id)
 	data = np.genfromtxt(graph.data, delimiter=',', names=['x','y']) #extract data from cvs after x and y
-	fig = Figure()
-	ax = fig.add_subplot(111)
- 	title(graph.name)
-	ax.plot(data['x'], data['y'], label=graph.name)
+
+	fig = plt.Figure()
+	#ax = fig.add_subplot(111)
+
+	#ani = animation.FuncAnimation(fig, update, 25, fargs=(data),
+  #  interval=50, blit=True)
+  	fig.plot(data['x'], data['y'], label=graph.name)
 	canvas=FigureCanvas(fig)
 	response = HttpResponse(content_type='image/png')
 	canvas.print_png(response)
 	return(response)
+
+#deletes graph and returns to listings
+@csrf_exempt
+def delete_graph(request, graph_id=None):
+	if request.is_ajax():
+		try:
+			deleted = models.Graph.objects.get(pk=request.POST.get('id'));
+			deleted.delete()
+			#return to listings
+			graphs = models.Graph.objects.all()
+			template = loader.get_template("listing.django")
+			cont = RequestContext(request, {'objects': graphs, 'section_title': "Graphs", })
+		except:
+			template = loader.get_template("graph.django")
+			cont = RequestContext(request, {'content_html': 'Error deleting graph', 'section_title': "Graphs" })
+
+	else:
+		template = loader.get_template("graph.django")
+		cont = RequestContext(request, {'content_html': 'Error deleting graph', 'section_title': "Graphs" })
+	return HttpResponse(template.render(cont))
+
+def update(data):
+		xarr = []
+		yarr =[]
+		for line in data:
+			x = line[0]
+			y = line[1]
+			xarr.append(int(x))
+			yarr.append(int(y))

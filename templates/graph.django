@@ -1,10 +1,36 @@
 {% extends "subpage.django" %}
+
+{# once jQuery works, can do deleteGraph ajax requests #}
+
 {% block content %}
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+<script type='text/javascript'>
+    $(document).ready(function(){
+        $("#dialog").hide();
+        $(".delete").click(function(){
+            alert("{{ graph.name }} will be deleted.");
+            //will use ajax to send POST request to view delete_graph
+            $.ajax({
+                type: "POST",
+                url:"  {% url 'deleteGraph' graph.id %}",
+                data: { id:{{graph.id}} },
+                success: alert("Graph deleted")
+            });
+        });
+    });
+</script>
+    {% if graph %}
+        <h3> {{ graph.name }} </h3>
+       {% url 'graphImage' graph.id as the_graph %}
+        <img src="{{the_graph}}" alt="{{the_graph}}"/>
 
- {% if graph %}
-    <h3> {{ graph.name }} </h3>
-    <h1> {% url 'graphImage' graph.id as the_graph %} </h1>
-    <img src="{{the_graph}}" alt="{{the_graph}}"/>
-{% endif %}
 
+        <a class="button delete" id="{{ graph.id }}" href="#">Delete</a>
+
+
+        <div id="dialog" title="Confirm delete">Are you sure?</div>
+
+
+    {% endif %}
+{# need to add object.id to dialog in javascript #}
 {% endblock  %}
