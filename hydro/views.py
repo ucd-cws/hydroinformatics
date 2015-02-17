@@ -199,10 +199,7 @@ def render_graph(request, graph_id=None):
 	data = np.genfromtxt(graph.data, delimiter=',', names=['x','y']) #extract data from cvs after x and y
 
 	fig = plt.Figure()
-	#ax = fig.add_subplot(111)
-
-	#ani = animation.FuncAnimation(fig, update, 25, fargs=(data),
-  #  interval=50, blit=True)
+	ax = fig.add_subplot(111)
   	fig.plot(data['x'], data['y'], label=graph.name)
 	canvas=FigureCanvas(fig)
 	response = HttpResponse(content_type='image/png')
@@ -230,11 +227,4 @@ def delete_graph(request, graph_id=None):
 		cont = RequestContext(request, {'content_html': 'Error deleting graph', 'section_title': "Graphs" })
 	return HttpResponse(template.render(cont))
 
-def update(data):
-		xarr = []
-		yarr =[]
-		for line in data:
-			x = line[0]
-			y = line[1]
-			xarr.append(int(x))
-			yarr.append(int(y))
+
