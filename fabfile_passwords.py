@@ -1,3 +1,3 @@
 __author__ = 'nrsantos'
 
-pws = {'nick@localhost:31': 'TIztcP0TNG4zMJV8CzZ3'}
+pws = {'username': 'passwords'}  # there was an old password committed here (facepalm), but it's no longer valid
